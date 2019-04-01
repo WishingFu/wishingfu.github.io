@@ -2,27 +2,33 @@
     <title>Accounting</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
     <body style="background-color:azure;">
-        
+
+        <h3>Accounting</h3>
+
         <div style="background-color: snow; box-shadow: white 3px 3px 2px 2px;">
-            <form id="record">
+            <form class="pure-form" id="record">
                 <div class="input-item">
                     <label>
-                        用途：<input type="text" name="tag" placeholder="用途" required>
+                        用途：
                     </label>
+                    <input style="display: inline-block;" type="text" name="tag" placeholder="用途" required>
                 </div>
     
                 <div class="input-item">
                     <label>
-                        金额：<input type="text" name="num" placeholder="金额" required>
+                        金额：
                     </label>
+                    <input style="display: inline-block;" type="number" min='0' name="num" placeholder="金额" required>
                 </div>
     
                 <div class="input-item">
                     <label>
-                        时间：<input type="datetime-local" name="useTime" placeholder="使用时间" required>
+                        时间：
                     </label>
+                    <input style="display: inline-block;" type="datetime-local" name="useTime" placeholder="使用时间" required>
                 </div>
                 
                 <div class="input-item">

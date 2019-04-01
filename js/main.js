@@ -13,8 +13,6 @@ function saveRecord() {
     const num = $('[name="num"]').val();
     const date = $('[name="useTime"]').val();
 
-    console.log();
-
     this.recordOperation.save({
         tag: tag, num: num, useTime: date, createTime: new Date()
     });
