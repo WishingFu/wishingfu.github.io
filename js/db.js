@@ -67,5 +67,17 @@ class RecordOperation {
     t() {
         return this.dbInitilized && this.DB.r("record");
     }
+
+    list() {
+
+    }
+
+    update() {
+
+    }
+
+    delete() {
+
+    }
 }
 

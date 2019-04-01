@@ -11,9 +11,14 @@ $(function() {
 function saveRecord() {
     const tag = $('[name="tag"]').val();
     const num = $('[name="num"]').val();
+    const desc = $('[name="desc"]').val();
     const date = $('[name="useTime"]').val();
 
+    if(!tag || !num || date) {
+        alert("请输入完整信息");
+    }
+
     this.recordOperation.save({
-        tag: tag, num: num, useTime: date, createTime: new Date()
+        tag: tag, num: num, desc: desc, useTime: date, createTime: new Date()
     });
 }
