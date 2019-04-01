@@ -1,0 +1,6 @@
+*{font-family: kai;}
+input{background-color: snow;}
+
+.input-item{margin: 5px 0; padding: 10px; text-align: center;}
+
+.input-item input{width: 80%;}

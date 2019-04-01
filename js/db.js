@@ -39,23 +39,33 @@ class Database {
         os.createIndex("createTime", "createTime");
     }
 
-    t() {
-        return this.INITIALIZED && this.db.transaction("record", "readwrite");
+    t(name) {
+        return this.INITIALIZED && this.db.transaction(name, "readwrite");
     }
 
-    r() {
-        return this.t().objectStore("record");
+    r(name) {
+        return this.t(name).objectStore(name);
     }
 }
 
-const DB = new Database(_ => {
-    const record = {};
-    record.tag = "早餐";
-    record.num = 150;
-    record.desc = "包子";
-    record.useTime = new Date();
-    record.createTime = new Date();
+class RecordOperation {
 
-    DB.r().add(record);
-});
+    DB;
+    dbInitilized = false;
+
+    constructor(callback) {
+        this.DB = new Database(_ => {
+            this.dbInitilized = true;
+            callback && callback();
+        });
+    }
+
+    save(record) {
+        this.t().add(record);
+    }
+
+    t() {
+        return this.dbInitilized && this.DB.r("record");
+    }
+}
 
