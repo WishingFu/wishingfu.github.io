@@ -21,4 +21,8 @@ td{font-size: 0.7rem; padding: 7px 0px;}
 
 .delete-item{color: red;}
 
-body{ background-image: url("../imgs/DSC00318_copy.jpg"); background-attachment: fixed; background-size: initial; background-position: center;}
+label, td, th, h4, p{color: white;}
+
+body{background-attachment: fixed; background-size: initial; background-position: center;}
+
+#bg-canvas{width: 100%; height: 100vh; position: absolute; top: 0; z-index: -1;}
