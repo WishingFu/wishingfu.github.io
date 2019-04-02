@@ -2,13 +2,13 @@ body{font-family: kai;}
 body > div{margin-left: 5px; margin-right: 5px;}
 input{background-color: snow;}
 
-h3{height: 30px; line-height: 30px; margin: 0; text-align: center; margin-bottom: 0; background-color: #aaaaaa; color: white; position: fixed; top: 0; width: 100%;}
+h3{height: 30px; line-height: 30px; margin: 0; text-align: center; margin-bottom: 0; background-color: rgba(200, 200, 200, 0.4); color: white; position: fixed; top: 0; width: 100%;}
 
 .input-item{padding: 10px; text-align: center;}
 .input-item input{width: 70%; display: inline-block;}
 .input-item label{display: inline-block;}
 
-#save-button{width: 80%; height: 40px; line-height: 40px; border: 1px solid azure; background-color: hotpink; color: white;}
+#save-button{width: 80%; height: 40px; line-height: 40px; border: 1px solid azure; background-color: rgba(255, 105, 180, 0.8); color: white;}
 
 button, input{font-family: kai;}
 
@@ -20,3 +20,5 @@ td{font-size: 0.7rem; padding: 7px 0px;}
 .hide{opacity: 0;}
 
 .delete-item{color: red;}
+
+body{ background-image: url("../imgs/DSC00318_copy.jpg"); background-attachment: fixed; background-size: initial; background-position: center;}
