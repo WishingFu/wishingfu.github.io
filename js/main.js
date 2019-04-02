@@ -1,5 +1,7 @@
 var recordOperation;
 const w = window;
+var tags = [];
+var tagNum = {};
 
 $(function() {
     recordOperation = new RecordOperation(() => {
@@ -45,9 +47,10 @@ function deleteRecord(e) {
 }
 
 function showRecord(record) {
+    let tag = record.tag;
     record.num = record.num / 100;
-    record.useTime = record.useTime.format('yy-MM-dd HH');
-    record.createTime = record.createTime.format('yy-MM-dd HH');
+    record.useTime = record.useTime.format('yy-MM-dd HH:mm');
+    record.createTime = record.createTime.format('yy-MM-dd HH:mm');
 
     let html = 
     `<tr>
@@ -56,6 +59,13 @@ function showRecord(record) {
         <td>useTime</td>
         <td><a class="delete-item" data-key="id">删除</a></td>
     </tr>`;
+
+    if(!tagNum[tag]) {
+        tagNum[tag] = 0;
+        tags.push(tag);
+    }
+
+    tagNum[tag] = tagNum[tag] + 1;
 
     for(let i in record) {
         let regExp = new RegExp(i, "g");
@@ -90,12 +100,11 @@ let task;
 
 function showMessage(text) {
     if(task) {
-        clearInterval(task);
+        clearTimeout(task);
     }
 
     let message = $("#message");
     message.removeClass("hide");
-    // message.css("opacity", 1);
     message.text(text);
 
     task = setTimeout(() => message.addClass("hide"), 2000);
