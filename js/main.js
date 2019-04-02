@@ -28,7 +28,8 @@ function saveRecord() {
     }
 
     const request = recordOperation.save({
-        tag: tag, num: Math.round(num * 100), desc: desc, useTime: new Date(date), createTime: new Date()
+        tag: tag, num: Math.round(num * 100), desc: desc,
+        useTime: new Date(date.replace(/-/g,'/').replace('T',' ')), createTime: new Date()
     });
 
     request.onsuccess = () => {
