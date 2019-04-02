@@ -10,3 +10,12 @@ h3{height: 30px; line-height: 30px; text-align: center; margin-bottom: 0; border
 #save-button{width: 200px; height: 40px; line-height: 40px; border: 1px solid azure; background-color: hotpink; color: white;}
 
 button, input{font-family: kai;}
+
+td{font-size: 0.7rem; padding: 10px 0px;}
+
+#message{transition: opacity 1s ease-out;}
+
+.show{opacity: 1;}
+.hide{opacity: 0;}
+
+.delete-item{color: red;}

@@ -39,12 +39,38 @@
                 </div>
                 
                 <div class="input-item">
-                    <button id="save-button" type="button">保存</button>
+                    <button disabled='disabled' id="save-button" type="button">保存</button>
                 </div>
             </form>
         </div>
-        <div id="message" style="display:none;">
-            请填写完整的信息
+        <div>
+
+        <div style="height: 30px;">
+            <p id="message" class="show hide" style="text-align: center;"></p>
+        </div>
+
+        <div>
+            <h4 style="text-align: center;">列表</h4>
+            <table style="font-size: 1rem; width: 100%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用途</th>
+                        <th>数量</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="list-body">
+                    <!-- <tr>
+                        <td>1</td>
+                        <td>用途</td>
+                        <td>2.00</td>
+                        <td>04-01 08</td>
+                        <td>删除 修改</td>
+                    </tr> -->
+                </tbody>
+            </table>
         </div>
     </body>
     

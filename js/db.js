@@ -18,6 +18,7 @@ class Database {
         this.db = event.target.result;
 
         this.callback && this.callback();
+        showMessage("数据库初始化完成！");
     }
 
     onUpgradeNeeded(event) {
@@ -56,15 +57,23 @@ class RecordOperation {
     }
 
     save(record) {
-        this.t().add(record);
+        return this.t().add(record);
     }
 
     t() {
         return this.dbInitilized && this.DB.r("record");
     }
 
-    list() {
-
+    list(callback) {
+        this.t().openCursor().onsuccess = (e) => {
+            const cursor = e.target.result;
+            if(cursor) {
+                callback && callback(cursor.value);
+                cursor.continue();
+            } else {
+                showMessage("列表读取完成！");
+            }
+        }
     }
 
     update() {
