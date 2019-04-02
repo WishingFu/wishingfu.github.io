@@ -52,7 +52,7 @@ function showRecord(record) {
     `<tr>
         <td>id</td>
         <td>tag</td>
-        <td>desc</td>
+        <td>num</td>
         <td>useTime</td>
         <td><a class="delete-item" data-key="id">删除</a></td>
     </tr>`;
