@@ -10,7 +10,7 @@ class Database {
     initDB() {
         const request = window.indexedDB.open("accounting", 1);
         request.onsuccess = (e) => this.onInitSuccess(e);
-        request.onupgradeneeded = (e)=> this.onupgradeneeded(e);
+        request.onupgradeneeded = (e)=> this.onUpgradeNeeded(e);
     }
 
     onInitSuccess(event) {
