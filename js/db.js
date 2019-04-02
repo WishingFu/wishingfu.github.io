@@ -1,11 +1,8 @@
 class Database {
-
-    INITIALIZED = false;
-    db;
-
-    callback;
-
     constructor(callback) {
+        this.INITIALIZED = false;
+        this.db = null;
+
         this.callback = callback;
         this.initDB();
     }
@@ -49,11 +46,9 @@ class Database {
 }
 
 class RecordOperation {
-
-    DB;
-    dbInitilized = false;
-
     constructor(callback) {
+        this.dbInitilized = false;
+
         this.DB = new Database(_ => {
             this.dbInitilized = true;
             callback && callback();
