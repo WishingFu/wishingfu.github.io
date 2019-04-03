@@ -2,9 +2,9 @@ var canvasElement = document.querySelector("#bg-canvas");
 
 var ratio = window.devicePixelRatio;
 var width = window.innerWidth * ratio;
-var height = window.innerHeight * ratio;
+var height = (window.innerHeight + 200) * ratio; //加200免得烦
 canvasElement.style.width = window.innerWidth + "px";
-canvasElement.style.height = window.innerHeight + "px";
+canvasElement.style.height = (window.innerHeight + 200) + "px";
 canvasElement.width = width;
 canvasElement.height = height;
 
