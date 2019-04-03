@@ -1,6 +1,7 @@
 var recordOperation;
 const w = window;
 var tags = [];
+var records = [];
 var tagNum = {};
 
 $(function() {
@@ -16,9 +17,28 @@ $(function() {
             deleteRecord(e);
         }
     });
+
+    $("#id-input").on("click", (e) => {
+        $("input[name='id']").val("");
+        $(e.currentTarget).hide();
+    });
+
+    $("#list-body").on("click", ".item-row", (e) => {
+        $(".item-row").removeClass("selected");
+        const target = e.currentTarget;
+        $(target).addClass("selected");
+        const record = records[target.dataset.index];
+        $("#id-input").show();
+        $('[name="id"]').val(record.id);
+        $('[name="tag"]').val(record.tag);
+        $('[name="num"]').val(record.num);
+        $('[name="desc"]').val(record.desc);
+        $('[name="useTime"]').val(record.useTime.replace(' ','T'));
+    })
 });
 
 function saveRecord() {
+    const id = $('[name="id"]').val();
     const tag = $('[name="tag"]').val();
     const num = $('[name="num"]').val();
     const desc = $('[name="desc"]').val();
@@ -30,6 +50,7 @@ function saveRecord() {
     }
 
     const request = recordOperation.save({
+        id: id && $.isNumeric(id) ? parseInt(id) : id,
         tag: tag, num: Math.round(num * 100), desc: desc,
         useTime: new Date(date.replace(/-/g,'/').replace('T',' ')), createTime: new Date()
     });
@@ -37,23 +58,23 @@ function saveRecord() {
     request.onsuccess = () => {
         showMessage("保存成功！");
         $("#list-body").html("");
+        records = [];
         recordOperation.list(showRecord);
     }
 }
 
 function deleteRecord(e) {
     const id = e.target.dataset.key;
-    alert(id);
 }
 
 function showRecord(record) {
     let tag = record.tag;
     record.num = record.num / 100;
-    record.useTime = record.useTime.format('yy-MM-dd HH:mm');
-    record.createTime = record.createTime.format('yy-MM-dd HH:mm');
+    record.useTime = record.useTime.format('yyyy-MM-dd HH:mm');
+    record.createTime = record.createTime.format('yyyy-MM-dd HH:mm');
 
     let html = 
-    `<tr>
+    `<tr class="item-row" data-index="number">
         <td>tag</td>
         <td>num</td>
         <td>useTime</td>
@@ -64,6 +85,8 @@ function showRecord(record) {
         tagNum[tag] = 0;
         tags.push(tag);
     }
+    html = html.replace("number", records.length);
+    records.push(record);
 
     tagNum[tag] = tagNum[tag] + 1;
 

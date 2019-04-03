@@ -6,7 +6,7 @@ h3{height: 30px; line-height: 30px; margin: 0; text-align: center; margin-bottom
 
 .input-item{padding: 10px; text-align: center;}
 .input-item input{width: 70%; display: inline-block;}
-.input-item label{display: inline-block;}
+.input-item label{display: inline-block; width: 60px;}
 
 #save-button{width: 80%; height: 40px; line-height: 40px; border: 1px solid azure; background-color: rgba(255, 105, 180, 0.8); color: white;}
 
@@ -25,4 +25,8 @@ label, td, th, h4, p{color: white;}
 
 body{background-attachment: fixed; background-size: initial; background-position: center;}
 
-#bg-canvas{width: 100%; height: 100vh; position: absolute; top: 0; z-index: -1;}
+#bg-canvas{width: 100%; height: 100vh; position: fixed; top: 0; z-index: -1;}
+
+.selected{background-color: rgba(100, 149, 237, 0.6);}
+
+#id-input{display: none;}

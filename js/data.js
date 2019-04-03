@@ -97,34 +97,24 @@ function gaussBlur(data) {
   return data;
 }
 
-
-
-
-
-
-
-
-
-
 //输入的h范围为[0,360],s,l为百分比形式的数值,范围是[0,100] 
 //输出r,g,b范围为[0,255],可根据需求做相应调整
 function hsltorgb(h,s,l){
-	var h=h/360;
-	var s=s/100;
-	var l=l/100;
-	var rgb=[];
+	var h = h / 360;
+	var s = s / 100;
+	var l = l / 100;
+	var rgb = [];
 
-	if(s==0){
-		rgb=[Math.round(l*255),Math.round(l*255),Math.round(l*255)];
-	}else{
-		var q=l>=0.5?(l+s-l*s):(l*(1+s));
-		var p=2*l-q;
-		var tr=rgb[0]=h+1/3;
-		var tg=rgb[1]=h;
-		var tb=rgb[2]=h-1/3;
-		for(var i=0; i<rgb.length;i++){
+	if(s == 0) {
+		rgb=[ Math.round( l * 255 ), Math.round(l * 255), Math.round(l * 255 ) ];
+	} else {
+		var q = l >= 0.5 ? (l + s - l * s) : ( l * ( 1 + s ) );
+		var p = 2 * l - q;
+		rgb[0] = h+1/3;
+		rgb[1] = h;
+		rgb[2] = h-1/3;
+		for(var i=0; i < rgb.length; i++){
 			var tc=rgb[i];
-			console.log(tc);
 			if(tc<0){
 				tc=tc+1;
 			}else if(tc>1){

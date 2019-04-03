@@ -57,7 +57,11 @@ class RecordOperation {
     }
 
     save(record) {
-        return this.t().add(record);
+        if(record.id) {
+            return this.t().put(record);
+        } else {
+            return this.t().add(record);
+        }
     }
 
     t() {
@@ -81,7 +85,7 @@ class RecordOperation {
     }
 
     delete() {
-
+        
     }
 }
 
