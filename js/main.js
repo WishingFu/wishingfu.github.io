@@ -4,10 +4,12 @@ var tags = [];
 var records = [];
 var tagNum = {};
 
+var monthCount = {};
+
 $(function() {
     recordOperation = new RecordOperation(() => {
         $("#save-button").removeAttr("disabled");
-        recordOperation.list(showRecord);
+        recordOperation.list(showRecord, listCompelete);
     });
 
     $("#save-button").on("click", () => saveRecord());
@@ -21,6 +23,11 @@ $(function() {
     $("#id-input").on("click", (e) => {
         $("input[name='id']").val("");
         $(e.currentTarget).hide();
+    });
+
+    $("#tags").on("click", ".tag-item", (e) => {
+        const tag = e.currentTarget.dataset.tag;
+        $("input[name='tag']").val(tag);
     });
 
     $("#list-body").on("click", ".item-row", (e) => {
@@ -59,7 +66,27 @@ function saveRecord() {
         showMessage("保存成功！");
         $("#list-body").html("");
         records = [];
-        recordOperation.list(showRecord);
+        monthCount = {};
+        recordOperation.list(showRecord, listCompelete);
+    }
+}
+
+function listCompelete() {
+    $("#count-list-body").html("");
+    for(let i in monthCount) {
+        $("#count-list-body").append("<tr><td>"+i+"</td><td>"+monthCount[i]+"</td></tr>");
+    }
+
+    $("#tag-list-body").html("");
+    for(let i in tagNum) {
+        $("#tag-list-body").append("<tr><td>"+i+"</td><td>"+tagNum[i]+"</td></tr>");
+    }
+
+    $("#tags").html("");
+    for(let i = 0; i < tags.length; i++) {
+        let t = tags[i];
+        $("<div class='tag-item' data-tag='" + t + "'>" + t + "</div>").appendTo("#tags")[0]
+            .style.background = hsltorgb(randInt(360), 50, 50, 0.4);
     }
 }
 
@@ -70,8 +97,15 @@ function deleteRecord(e) {
 function showRecord(record) {
     let tag = record.tag;
     record.num = record.num / 100;
+    const m = record.useTime.format("yyyy-MM");
     record.useTime = record.useTime.format('yyyy-MM-dd HH:mm');
     record.createTime = record.createTime.format('yyyy-MM-dd HH:mm');
+
+    
+    if(!monthCount[m]) {
+        monthCount[m] = 0;
+    }
+    monthCount[m] += record.num;
 
     let html = 
     `<tr class="item-row" data-index="number">
@@ -85,10 +119,13 @@ function showRecord(record) {
         tagNum[tag] = 0;
         tags.push(tag);
     }
+
+    tagNum[tag] = tagNum[tag] + record.num;
+
     html = html.replace("number", records.length);
     records.push(record);
 
-    tagNum[tag] = tagNum[tag] + 1;
+    
 
     for(let i in record) {
         let regExp = new RegExp(i, "g");

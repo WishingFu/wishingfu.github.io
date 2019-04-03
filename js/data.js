@@ -99,7 +99,7 @@ function gaussBlur(data) {
 
 //输入的h范围为[0,360],s,l为百分比形式的数值,范围是[0,100] 
 //输出r,g,b范围为[0,255],可根据需求做相应调整
-function hsltorgb(h,s,l){
+function hsltorgb(h,s,l,a){
 	var h = h / 360;
 	var s = s / 100;
 	var l = l / 100;
@@ -137,6 +137,5 @@ function hsltorgb(h,s,l){
 			rgb[i]=Math.round(tc*255);
 		}
 	}
-	
-	return "rgb("+rgb[0]+","+rgb[1]+","+rgb[2]+")";
+	return a ? "rgba("+rgb[0]+","+rgb[1]+","+rgb[2]+", "+a+")" : "rgb("+rgb[0]+","+rgb[1]+","+rgb[2]+")";
 }

@@ -68,7 +68,7 @@ class RecordOperation {
         return this.dbInitilized && this.DB.r("record");
     }
 
-    list(callback) {
+    list(callback, finishCallback) {
         this.t().openCursor().onsuccess = (e) => {
             const cursor = e.target.result;
             if(cursor) {
@@ -76,6 +76,7 @@ class RecordOperation {
                 cursor.continue();
             } else {
                 showMessage("列表读取完成！");
+                finishCallback && finishCallback();
             }
         }
     }

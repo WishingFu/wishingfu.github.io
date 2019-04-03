@@ -30,3 +30,9 @@ body{background-attachment: fixed; background-size: initial; background-position
 .selected{background-color: rgba(100, 149, 237, 0.6);}
 
 #id-input{display: none;}
+
+#list-body td{width: 25%;}
+#count-list-body td, #tag-list-body td{width: 50%;}
+
+#tags{width: 80%; text-align: center; margin: auto;}
+.tag-item{display: inline-block; padding: 3px; color: white; min-width: 50px; height: 30px; line-height: 30px; margin: 0 10px;}

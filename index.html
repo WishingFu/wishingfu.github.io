@@ -24,6 +24,10 @@
                     </label>
                     <input style="display: inline-block;" type="text" name="tag" placeholder="用途" required>
                 </div>
+
+                <div id="tags">
+                    
+                </div>
     
                 <div class="input-item">
                     <label>
@@ -51,7 +55,6 @@
                 </div>
             </form>
         </div>
-        <div>
 
         <div style="height: 30px;">
             <p id="message" class="show hide" style="text-align: center;"></p>
@@ -62,25 +65,46 @@
             <table style="font-size: 1rem; width: 100%; text-align: center;">
                 <thead>
                     <tr>
-                        <!-- <th>序号</th> -->
                         <th>用途</th>
                         <th>金额</th>
                         <th>时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody id="list-body">
-                    <!-- <tr>
-                        <td>1</td>
-                        <td>用途</td>
-                        <td>2.00</td>
-                        <td>04-01 08</td>
-                        <td>删除 修改</td>
-                    </tr> -->
-                </tbody>
+                <tbody id="list-body"></tbody>
             </table>
         </div>
     </body>
+
+    <div style="background-color:rgba(0, 0, 0, 0.1); padding-top: 5px; margin: 10px 0;">
+        <h4 style="text-align: center; margin: 5px 0 10px 0;">月小计</h4>
+        <table style="font-size: 1rem; width: 100%; text-align: center;">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody id="count-list-body">
+
+            </tbody>
+        </table>
+    </div>
+
+    <div style="background-color:rgba(0, 0, 0, 0.1); padding-top: 5px; margin: 10px 0;">
+        <h4 style="text-align: center; margin: 5px 0 10px 0;">分类小计</h4>
+        <table style="font-size: 1rem; width: 100%; text-align: center;">
+            <thead>
+                <tr>
+                    <th>用途</th>
+                    <th>金额</th>
+                </tr>
+            </thead>
+            <tbody id="tag-list-body">
+
+            </tbody>
+        </table>
+    </div>
     
     <script type="text/javascript" src="js/data.js"></script>
     <script type="text/javascript" src="lib/js/zepto.min.js"></script>
