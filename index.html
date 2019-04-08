@@ -1,0 +1,30 @@
+<html>
+    <title>Wishing Home</title>
+    <meta charset="UTF-8" />
+
+    <body>
+        <div id="content">
+
+        </div>
+
+        <script type="text/javascript" src="js/showdown.min.js"></script>
+        <script type="text/javascript" src="js/zepto.min.js"></script>
+        <script type="text/javascript">
+            var converter = new showdown.Converter();
+            var html = converter.makeHtml(text);
+
+            $(function() {
+                $.ajax({
+                    url: "mds/syntax.md",
+                    accepts: "text",
+                    success: (text) => {
+                        console.log(text);
+                    },
+                    error: (error) => {
+
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
