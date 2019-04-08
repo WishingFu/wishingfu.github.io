@@ -19,6 +19,7 @@
                     accepts: "text",
                     success: (text) => {
                         console.log(text);
+                        $("#content").html(converter.makeHtml(text));
                     },
                     error: (error) => {
 
