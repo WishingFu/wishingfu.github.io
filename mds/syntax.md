@@ -121,137 +121,193 @@ Retrieve the default options
 
 You can get showdown's default options with:
 
-    var defaultOptions =  showdown.getDefaultOptions();
+    var defaultOptions = showdown.getDefaultOptions();
 
-### Valid Options
+## Valid Options
 
-    omitExtraWLInCodeBlocks: (boolean) [default false] Omit the trailing newline in a code block. Ex:
+### omitExtraWLInCodeBlocks: (boolean) [default false]
+Omit the trailing newline in a code block. Ex:
 
-    This:
+This:
 
-    <code><pre>var foo = 'bar';
-    </pre></code>
+<code><pre>var foo = 'bar';
+</pre></code>
 
-    Becomes this:
+Becomes this:
 
-    <code><pre>var foo = 'bar';</pre></code>
+<code><pre>var foo = 'bar';</pre></code>
 
-    noHeaderId: (boolean) [default false] Disable the automatic generation of header ids. Setting to true overrides prefixHeaderId
+### noHeaderId: (boolean) [default false]
+Disable the automatic generation of header ids. Setting to true overrides prefixHeaderId
 
-    customizedHeaderId: (boolean) [default false] Use text in curly braces as header id. (since v1.7.0) Example:
+### customizedHeaderId: (boolean) [default false]
+Use text in curly braces as header id. (since v1.7.0) Example:
 
-    ## Sample header {real-id}     will use real-id as id
+```
+## Sample header {real-id}     will use real-id as id
+```
 
-    ghCompatibleHeaderId: (boolean) [default false] Generate header ids compatible with github style (spaces are replaced with dashes and a bunch of non alphanumeric chars are removed) (since v1.5.5)
+### ghCompatibleHeaderId: (boolean) [default false]
+Generate header ids compatible with github style (spaces are replaced with dashes and a bunch of non alphanumeric chars are removed) (since v1.5.5)
 
-    prefixHeaderId: (string/boolean) [default false] Add a prefix to the generated header ids. Passing a string will prefix that string to the header id. Setting to true will add a generic 'section' prefix.
+### prefixHeaderId: (string/boolean) [default false]
+Add a prefix to the generated header ids. Passing a string will prefix that string to the header id. Setting to true will add a generic 'section' prefix.
 
-    rawPrefixHeaderId: (boolean) [default false] Setting this option to true will prevent showdown from modifying the prefix. This might result in malformed IDs (if, for instance, the " char is used in the prefix). Has no effect if prefixHeaderId is set to false. (since v 1.7.3)
+### rawPrefixHeaderId: (boolean) [default false]
+Setting this option to true will prevent showdown from modifying the prefix. This might result in malformed IDs (if, for instance, the " char is used in the prefix). Has no effect if prefixHeaderId is set to false. (since v 1.7.3)
 
-    rawHeaderId: (boolean) [default false] Remove only spaces, ' and " from generated header ids (including prefixes), replacing them with dashes (-). WARNING: This might result in malformed ids (since v1.7.3)
+### rawHeaderId: (boolean) [default false]
+Remove only spaces, ' and " from generated header ids (including prefixes), replacing them with dashes (-). WARNING: This might result in malformed ids (since v1.7.3)
 
-    headerLevelStart: (integer) [default 1] Set the header starting level. For instance, setting this to 3 means that
+### headerLevelStart: (integer) [default 1]
+Set the header starting level. For instance, setting this to 3 means that
+```
+# foo
+```
+will be parsed as
+```
+<h3>foo</h3>
+```
 
-    # foo
+### parseImgDimensions: (boolean) [default false]
+Enable support for setting image dimensions from within markdown syntax. Examples:
 
-    will be parsed as
+```
+![foo](foo.jpg =100x80)     simple, assumes units are in px
+![bar](bar.jpg =100x*)      sets the height to "auto"
+![baz](baz.jpg =80%x5em)  Image with width of 80% and height of 5em
+```
 
-    <h3>foo</h3>
+### simplifiedAutoLink: (boolean) [default false]
+Turning this option on will enable automatic linking to urls. This means that:
 
-    parseImgDimensions: (boolean) [default false] Enable support for setting image dimensions from within markdown syntax. Examples:
+```
+some text www.google.com
+```
+will be parsed as
 
-    ![foo](foo.jpg =100x80)     simple, assumes units are in px
-    ![bar](bar.jpg =100x*)      sets the height to "auto"
-    ![baz](baz.jpg =80%x5em)  Image with width of 80% and height of 5em
+```
+<p>some text <a href="www.google.com">www.google.com</a>
+```
 
-    simplifiedAutoLink: (boolean) [default false] Turning this option on will enable automatic linking to urls. This means that:
+### excludeTrailingPunctuationFromURLs: (boolean) [default false]
+This option excludes trailing punctuation from autolinking urls. Punctuation excluded: . ! ? ( ). Only applies if simplifiedAutoLink option is set to true.
 
-    some text www.google.com
+### literalMidWordUnderscores: (boolean) [default false]
+Turning this on will stop showdown from interpreting underscores in the middle of words as `<em>` and `<strong>` and instead treat them as literal underscores.
 
-    will be parsed as
+Example:
 
-    <p>some text <a href="www.google.com">www.google.com</a>
+```
+some text with__underscores__in middle
+```
 
-    excludeTrailingPunctuationFromURLs: (boolean) [default false] This option excludes trailing punctuation from autolinking urls. Punctuation excluded: . ! ? ( ). Only applies if simplifiedAutoLink option is set to true.
+will be parsed as
 
-    literalMidWordUnderscores: (boolean) [default false] Turning this on will stop showdown from interpreting underscores in the middle of words as <em> and <strong> and instead treat them as literal underscores.
+```
+<p>some text with__underscores__in middle</p>
+```
 
-    Example:
+### literalMidWordAsterisks: (boolean) [default false]
+Turning this on will stop showdown from interpreting asterisks in the middle of words as `<em>` and `<strong>` and instead treat them as literal asterisks.
 
-    some text with__underscores__in middle
+### strikethrough: (boolean) [default false]
+Enable support for strikethrough syntax. \~~strikethrough~~ as `<del>`strikethrough`</del>`
 
-    will be parsed as
+### tables: (boolean) [default false]
+Enable support for tables syntax. Example:
 
-    <p>some text with__underscores__in middle</p>
+```
+| h1    |    h2   |      h3 |
+|:------|:-------:|--------:|
+| 100   | [a][1]  | ![b][2] |
+| *foo* | **bar** | ~~baz~~ |
+```
 
-    literalMidWordAsterisks: (boolean) [default false] Turning this on will stop showdown from interpreting asterisks in the middle of words as <em> and <strong> and instead treat them as literal asterisks.
+See the wiki for more info
 
-    strikethrough: (boolean) [default false] Enable support for strikethrough syntax. ~~strikethrough~~ as <del>strikethrough</del>
+### tablesHeaderId: (boolean) [default false]
+If enabled adds an id property to table headers tags.
 
-    tables: (boolean) [default false] Enable support for tables syntax. Example:
+### ghCodeBlocks: (boolean) [default true]
+Enable support for GFM code block style.
 
-    | h1    |    h2   |      h3 |
-    |:------|:-------:|--------:|
-    | 100   | [a][1]  | ![b][2] |
-    | *foo* | **bar** | ~~baz~~ |
+### tasklists: (boolean) [default false]
+Enable support for GFM tasklists. Example:
 
-    See the wiki for more info
+```
+- [x] This task is done
+- [ ] This is still pending
+```
 
-    tablesHeaderId: (boolean) [default false] If enabled adds an id property to table headers tags.
+### smoothLivePreview: (boolean) [default false]
+Prevents weird effects in live previews due to incomplete input
 
-    ghCodeBlocks: (boolean) [default true] Enable support for GFM code block style.
+### smartIndentationFix: (boolean) [default false]
+Tries to smartly fix indentation problems related to es6 template strings in the midst of indented code.
 
-    tasklists: (boolean) [default false] Enable support for GFM tasklists. Example:
+### disableForced4SpacesIndentedSublists: (boolean) [default false]
+Disables the requirement of indenting sublists by 4 spaces for them to be nested, effectively reverting to the old behavior where 2 or 3 spaces were enough. (since v1.5.0)
 
-     - [x] This task is done
-     - [ ] This is still pending
+###simpleLineBreaks: (boolean) [default false]
+Parses line breaks as `<br>`, without needing 2 spaces at the end of the line (since v1.5.1)
 
-    smoothLivePreview: (boolean) [default false] Prevents weird effects in live previews due to incomplete input
+```
+a line  
+wrapped in two
+```
 
-    smartIndentationFix: (boolean) [default false] Tries to smartly fix indentation problems related to es6 template strings in the midst of indented code.
+turns into:
 
-    disableForced4SpacesIndentedSublists: (boolean) [default false] Disables the requirement of indenting sublists by 4 spaces for them to be nested, effectively reverting to the old behavior where 2 or 3 spaces were enough. (since v1.5.0)
+```
+<p>a line<br>
+wrapped in two</p>
+```
 
-    simpleLineBreaks: (boolean) [default false] Parses line breaks as <br>, without needing 2 spaces at the end of the line (since v1.5.1)
+### requireSpaceBeforeHeadingText: (boolean) [default false]
+Makes adding a space between # and the header text mandatory (since v1.5.3)
 
-    a line  
-    wrapped in two
+### ghMentions: (boolean) [default false]
+Enables github @mentions, which link to the username mentioned (since v1.6.0)
 
-    turns into:
+### ghMentionsLink: (string) [default https://github.com/{u}]
+Changes the link generated by @mentions. Showdown will replace {u} with the username. Only applies if ghMentions option is enabled. Example: @tivie with ghMentionsOption set to //mysite.com/{u}/profile will result in `<a href="//mysite.com/tivie/profile">@tivie</a>`
 
-    <p>a line<br>
-    wrapped in two</p>
+### encodeEmails: (boolean) [default true]
+Enable e-mail addresses encoding through the use of Character Entities, transforming ASCII e-mail addresses into its equivalent decimal entities. (since v1.6.1)
 
-    requireSpaceBeforeHeadingText: (boolean) [default false] Makes adding a space between # and the header text mandatory (since v1.5.3)
+NOTE: Prior to version 1.6.1, emails would always be obfuscated through dec and hex encoding.
 
-    ghMentions: (boolean) [default false] Enables github @mentions, which link to the username mentioned (since v1.6.0)
+### openLinksInNewWindow: (boolean) [default false]
+Open all links in new windows (by adding the attribute target="_blank" to `<a>` tags) (since v1.7.0)
 
-    ghMentionsLink: (string) [default https://github.com/{u}] Changes the link generated by @mentions. Showdown will replace {u} with the username. Only applies if ghMentions option is enabled. Example: @tivie with ghMentionsOption set to //mysite.com/{u}/profile will result in <a href="//mysite.com/tivie/profile">@tivie</a>
+### backslashEscapesHTMLTags: (boolean) [default false] 
+Support for HTML Tag escaping. ex: `<div>foo</div>` (since v1.7.2)
 
-    encodeEmails: (boolean) [default true] Enable e-mail addresses encoding through the use of Character Entities, transforming ASCII e-mail addresses into its equivalent decimal entities. (since v1.6.1)
+### emoji: (boolean) [default false] 
+Enable emoji support. Ex: this is a `:smile:` emoji For more info on available emojis, see https://github.com/showdownjs/showdown/wiki/Emojis (since v.1.8.0)
 
-    NOTE: Prior to version 1.6.1, emails would always be obfuscated through dec and hex encoding.
+### underline: (boolean) [default false] 
+**EXPERIMENTAL FEATURE** Enable support for underline. Syntax is double or triple underscores ex: __underlined word__. With this option enabled, underscores are no longer parses into `<em>` and `<strong>`.
 
-    openLinksInNewWindow: (boolean) [default false] Open all links in new windows (by adding the attribute target="_blank" to <a> tags) (since v1.7.0)
+### completeHTMLDocument: (boolean) [default false] 
+Outputs a complete html document, including <html>, `<head>` and `<body>` tags' instead of an HTML fragment. (since v.1.8.5)
 
-    backslashEscapesHTMLTags: (boolean) [default false] Support for HTML Tag escaping. ex: \<div>foo\</div> (since v1.7.2)
+### metadata: (boolean) [default false] 
+Enable support for document metadata (defined at the top of the document between ««« and »»» or between --- and ---). (since v.1.8.5)
 
-    emoji: (boolean) [default false] Enable emoji support. Ex: this is a :smile: emoji For more info on available emojis, see https://github.com/showdownjs/showdown/wiki/Emojis (since v.1.8.0)
+```
+var conv = new showdown.Converter({metadata: true});
+var html = conv.makeHtml(someMd);
+var metadata = conv.getMetadata(); // returns an object with the document metadata
+```
 
-    underline: (boolean) [default false] EXPERIMENTAL FEATURE Enable support for underline. Syntax is double or triple underscores ex: __underlined word__. With this option enabled, underscores are no longer parses into <em> and <strong>.
+### splitAdjacentBlockquotes: (boolean) [default false] 
+Split adjacent blockquote blocks.(since v.1.8.6)
 
-    completeHTMLDocument: (boolean) [default false] Outputs a complete html document, including <html>, <head> and <body> tags' instead of an HTML fragment. (since v.1.8.5)
+**NOTE**: Please note that until version 1.6.0, all of these options are DISABLED by default in the cli tool.
 
-    metadata: (boolean) [default false] Enable support for document metadata (defined at the top of the document between ««« and »»» or between --- and ---). (since v.1.8.5)
-
-    var conv = new showdown.Converter({metadata: true});
-    var html = conv.makeHtml(someMd);
-    var metadata = conv.getMetadata(); // returns an object with the document metadata
-
-    splitAdjacentBlockquotes: (boolean) [default false] Split adjacent blockquote blocks.(since v.1.8.6)
-
-NOTE: Please note that until version 1.6.0, all of these options are DISABLED by default in the cli tool.
-Flavors
+## Flavors
 
 You can also use flavors or presets to set the correct options automatically, so that showdown behaves like popular markdown flavors.
 
@@ -263,11 +319,11 @@ Currently, the following flavors are available:
 
 ## Global
 
-showdown.setFlavor('github');
+    showdown.setFlavor('github');
 
 ## Instance
 
-converter.setFlavor('github');
+    converter.setFlavor('github');
 
 
 
