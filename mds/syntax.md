@@ -317,11 +317,11 @@ Currently, the following flavors are available:
     vanilla - showdown base flavor (as from v1.3.1)
     github - GFM (GitHub Flavored Markdown)
 
-## Global
+### Global
 
     showdown.setFlavor('github');
 
-## Instance
+### Instance
 
     converter.setFlavor('github');
 
