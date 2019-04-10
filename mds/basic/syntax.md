@@ -82,7 +82,7 @@ Options can be set:
 
 Setting a "global" option affects all instances of showdown
 
-showdown.setOption('optionKey', 'value');
+    showdown.setOption('optionKey', 'value');
 
 ##  Locally
 
@@ -130,12 +130,12 @@ Omit the trailing newline in a code block. Ex:
 
 This:
 
-<code><pre>var foo = 'bar';
-</pre></code>
+    <code><pre>var foo = 'bar';
+    </pre></code>
 
 Becomes this:
 
-<code><pre>var foo = 'bar';</pre></code>
+    <code><pre>var foo = 'bar';</pre></code>
 
 ### noHeaderId: (boolean) [default false]
 Disable the automatic generation of header ids. Setting to true overrides prefixHeaderId
@@ -187,7 +187,7 @@ some text www.google.com
 will be parsed as
 
 ```
-<p>some text <a href="www.google.com">www.google.com</a>
+<p>some text <a href="www.google.com">www.google.com</a></p>
 ```
 
 ### excludeTrailingPunctuationFromURLs: (boolean) [default false]
@@ -288,7 +288,7 @@ Support for HTML Tag escaping. ex: `<div>foo</div>` (since v1.7.2)
 Enable emoji support. Ex: this is a `:smile:` emoji For more info on available emojis, see https://github.com/showdownjs/showdown/wiki/Emojis (since v.1.8.0)
 
 ### underline: (boolean) [default false] 
-**EXPERIMENTAL FEATURE** Enable support for underline. Syntax is double or triple underscores ex: __underlined word__. With this option enabled, underscores are no longer parses into `<em>` and `<strong>`.
+**EXPERIMENTAL FEATURE** Enable support for underline. Syntax is double or triple underscores ex: `__underlined word__`. With this option enabled, underscores are no longer parses into `<em>` and `<strong>`.
 
 ### completeHTMLDocument: (boolean) [default false] 
 Outputs a complete html document, including <html>, `<head>` and `<body>` tags' instead of an HTML fragment. (since v.1.8.5)

@@ -1,31 +1,51 @@
 <html>
     <title>Wishing Home</title>
     <meta charset="UTF-8" />
+    <style type="text/css">
+        body{font-size: 16px; padding: 0; margin:0;}
+        h1{border-bottom: 1px solid gray;}
+        h2{text-indent: 1rem;}
+        h3{text-indent: 1.5rem;}
 
+        pre{padding: 1rem 1.7rem; background-color: #eee; margin: 1rem; overflow-x: scroll;}
+        code{background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; line-height: 1.5; box-decoration-break: clone;}
+
+        p{text-indent: 1.5rem; overflow-x: scroll; padding: 0 1.5rem; line-height: 1.5}
+    </style>
     <body>
-        <div id="content">
+        <!-- <canvas id="bg-canvas" style="position: fixed; z-index: -1; top: 0;"></canvas> -->
+        <nav></nav>
 
-        </div>
+        <div id="content"></div>
 
+        <!-- <script type="text/javascript" src="js/data.js"></script> -->
         <script type="text/javascript" src="js/showdown.min.js"></script>
-        <script type="text/javascript" src="js/zepto.min.js"></script>
         <script type="text/javascript">
-            var converter = new showdown.Converter();
-            // var html = converter.makeHtml(text);
+            const site = (function(w) {
+                const converter = new w.showdown.Converter();
 
-            $(function() {
-                $.ajax({
-                    url: "mds/syntax.md",
-                    accepts: "text",
-                    success: (text) => {
-                        console.log(text);
-                        $("#content").html(converter.makeHtml(text));
-                    },
-                    error: (error) => {
+                function fetchArticle(type, name, scb) {
+                    w.fetch("mds/" + type + "/" + name + ".md").then(
+                        resp => resp.ok && resp.text().then(data => scb && scb(converter.makeHtml(data)))
+                    ).catch(error => w.console.error(error));
+                }
 
+                function ele(selector) {
+                    return w.document.querySelector(selector);
+                }
+
+                w.Articles = function() {
+                    this.article = function(type, name, selector) {
+                        fetchArticle(type, name, data => ele(selector).innerHTML = data);
                     }
-                });
-            });
+
+                }
+
+                return new w.Articles();
+            })(window);
+
+
+            site.article("basic", "syntax", "#content");
         </script>
     </body>
 </html>
