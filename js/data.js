@@ -1,31 +1,47 @@
 var canvasElement = document.querySelector("#bg-canvas");
 
-var ratio = window.devicePixelRatio;
-var width = window.innerWidth * ratio;
-var height = (window.innerHeight + 200) * ratio; //加200免得烦
-canvasElement.style.width = window.innerWidth + "px";
-canvasElement.style.height = (window.innerHeight + 200) + "px";
-canvasElement.width = width;
-canvasElement.height = height;
+var ratio, width, height;
+
+function calcCanvasSize() {
+    ratio = window.devicePixelRatio;
+    width = window.innerWidth * ratio;
+    height = (window.innerHeight) * ratio;
+    canvasElement.style.width = window.innerWidth + "px";
+    canvasElement.style.height = window.innerHeight + "px";
+    canvasElement.width = width;
+    canvasElement.height = height;
+}
+
+calcCanvasSize();
 
 var canvas = canvasElement.getContext("2d");
-
 var PI2 = 2 * Math.PI;
 
+window.addEventListener("resize", calcCanvasSize);
+
 class Circle {
-    constructor() {
-        this.maxr = randInt(200);
-        this.color = hsltorgb(randInt(360), 50, 50);
-        this.x = randInt(width);
-        this.y = randInt(height);
+    constructor(x, y) {
+        this.maxr = 10;
+        this.color = hsltorgb(randInt(360), 100, 50, 1);
+        this.x = x || randInt(width);
+        this.y = y || randInt(height);
         this.r = 0;
         this.time = 0;
-        this.life = randInt(10 * 1000);
+        this.life = 100;
     }
 
     tick(c, cs, i) {
         this.time += 16.7;
-        this.r = this.maxr * this.time / this.life;
+        // if(this.time < this.life / 2) {
+        //     this.r = this.maxr * this.time / this.life * 2;
+        // } else {
+        //     this.r = this.maxr * (2 - this.time / this.life * 2);
+        //     this.r = this.r < 0 ? 0: this.r;
+        // }
+
+        this.r = this.maxr - this.maxr * this.time / this.life;
+        this.r = this.r < 0 ? 0 : this.r;
+
         c.fillStyle = this.color;
         c.moveTo(this.x, this.y);
         c.beginPath();
@@ -39,23 +55,75 @@ class Circle {
     }
 }
 
+class Line {
+    constructor(x, y) {
+        this.x = x || randInt(width);
+        this.y = y || randInt(height);
+
+        this.speed = 10;
+        this.moveTime = 0;
+        this.moveTotalTime = 1000;
+
+        this.nextPoint = [randInt(width), randInt(height)];
+
+        this.step = [(this.nextPoint[0] - this.x) / this.moveTotalTime * 16.7, (this.nextPoint[1] - this.y) / this.moveTotalTime * 16.7];
+    }
+
+    tick(c, ls, i) {
+        // c.strokeStyle = "black";
+        // c.lineWidth = 30;
+        // c.lineCap = "round";
+        // c.beginPath();
+        // c.moveTo(this.x, this.y);
+        this.x += this.step[0];
+        this.y += this.step[1];
+        // c.lineTo(this.x, this.y);
+        // c.closePath();
+        // c.stroke();
+        circles.push(new Circle(this.x, this.y));
+
+        this.moveTime += 16.7;
+        if(this.moveTime > this.moveTotalTime) {
+            ls.splice(i, 1);
+
+            if(lines.length < 50) {
+                lines.push(new Line(this.x, this.y), new Line(this.x, this.y));
+            }
+
+            this.moveTime = 0;
+            this.nextPoint = [randInt(width), randInt(height)];
+            this.step = [(this.nextPoint[0] - this.x) / this.moveTotalTime * 16.7, (this.nextPoint[1] - this.y) / this.moveTotalTime * 16.7];
+        }
+    }
+}
+
 var circles = [];
 var addCircleFrame = 0;
 var addCount = 0;
+var clearFrameCount = 0;
+
+var lines = [new Line()];
 
 function loop() {
     // canvas.putImageData(gaussBlur(canvas.getImageData(0, 0, width, height)), 0, 0);
-    canvas.fillStyle="rgba(0, 0, 0, 0.03)";
+    canvas.fillStyle="rgba(255, 255, 255, 0.4)";
     canvas.fillRect(0, 0, width, height);
     addCount += 1;
-    if(addCount >= addCircleFrame && circles.length < 50) {
-        addCircle();
-        addCount = 0;
-        addCircleFrame = randInt(60);
-    }
+    clearFrameCount += 1;
+    // if(addCount >= addCircleFrame && circles.length < 50) {
+    //     addCircle();
+    //     addCount = 0;
+    //     addCircleFrame = randInt(60);
+    // }
+    // if(clearFrameCount > 120) {
+    //     canvas.fillStyle="rgba(255, 255, 255, 0.5)";
+    //     canvas.fillRect(0, 0, width, height);
+    //     clearFrameCount = 0;
+    // }
 
+
+    animationLines();
     animationCircles();
-
     requestAnimationFrame(loop);
 }
 
@@ -68,6 +136,12 @@ function addCircle() {
 function animationCircles() {
     for(let i = circles.length; i--;) {
         circles[i].tick(canvas, circles, i);
+    }
+}
+
+function animationLines() {
+    for(let i = lines.length; i--;) {
+        lines[i].tick(canvas, lines, i);
     }
 }
 

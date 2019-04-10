@@ -2,8 +2,8 @@
     <title>Wishing Home</title>
     <meta charset="UTF-8" />
     <style type="text/css">
-        body{font-size: 16px; padding: 0; margin:0;}
-        h1{border-bottom: 1px solid gray;}
+        body{font-size: 16px; padding: 1rem; margin:0; background: url("img/body_bg_3.jpg") fixed;}
+        #content{ min-height: 70vh;}
         h2{text-indent: 1rem;}
         h3{text-indent: 1.5rem;}
 
@@ -11,12 +11,26 @@
         code{background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; line-height: 1.5; box-decoration-break: clone;}
 
         p{text-indent: 1.5rem; overflow-x: scroll; padding: 0 1.5rem; line-height: 1.5}
+        a{cursor: pointer;}
+        a:hover{color:cyan;}
+        blockquote{border-left:3px solid lightskyblue; margin: 0rem 2rem; padding: .5rem 0; background-color: linen;}
+        blockquote p{padding-left: 1rem; text-indent: 0;}
+        nav{height: 1.5rem; height: 2rem; line-height: 2; border-bottom: 1px solid gray;}
+        nav a{text-decoration: underline; padding: 1rem 0.5rem;}
+
+        footer{text-align: center;}
     </style>
     <body>
-        <!-- <canvas id="bg-canvas" style="position: fixed; z-index: -1; top: 0;"></canvas> -->
-        <nav></nav>
+        <canvas id="bg-canvas" style="margin: 0 -1rem; position: fixed; z-index: -1; top: 0;"></canvas>
+        <nav id="article-list">
+
+        </nav>
 
         <div id="content"></div>
+
+        <footer>
+            <p>Thanks for <a target="_blank" href="https://github.com/showdownjs/showdown">showdownjs@github</a> project.</p>
+        </footer>
 
         <!-- <script type="text/javascript" src="js/data.js"></script> -->
         <script type="text/javascript" src="js/showdown.min.js"></script>
@@ -39,13 +53,29 @@
                         fetchArticle(type, name, data => ele(selector).innerHTML = data);
                     }
 
+                    this.list = function(cfgs, selector, callbackName) {
+                        let html = "";
+                        for(let i = 0; i < cfgs.length; i++) {
+                            const a = cfgs[i];
+                            html += "<a data-type='"+a.type+"' data-name='"+a.name+"' onclick='"+callbackName+"(event);'>"+a.text+"</a>";
+                        }
+                        ele(selector).innerHTML = html;
+                    } 
                 }
 
                 return new w.Articles();
             })(window);
 
+            site.list([
+                {type: "basic", name: "syntax", text: "Syntax"},
+                {type: "life", name: "index", text: "Life"},
+            ], "#article-list", "onLinkClicked");
 
-            site.article("basic", "syntax", "#content");
+            function onLinkClicked(e) {
+                const data = e.target.dataset;
+                site.article(data.type, data.name, "#content");
+            }
+            // site.article("basic", "syntax", "#content");
         </script>
     </body>
 </html>
