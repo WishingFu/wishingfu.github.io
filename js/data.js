@@ -106,7 +106,8 @@ var lines = [new Line()];
 
 function loop() {
     // canvas.putImageData(gaussBlur(canvas.getImageData(0, 0, width, height)), 0, 0);
-    canvas.fillStyle="rgba(255, 255, 255, 0.4)";
+    // canvas.fillStyle="rgba(255, 255, 255, 0.4)";
+    canvas.fillStyle="rgba(0, 0, 0, 1)";
     canvas.fillRect(0, 0, width, height);
     addCount += 1;
     clearFrameCount += 1;

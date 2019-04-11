@@ -4,11 +4,13 @@
     <style type="text/css">
         body{font-size: 16px; padding: 1rem; margin:0; background: url("img/body_bg_3.jpg") fixed;}
 
-        @media screen and (min-width: 320px) and (max-width: 480px) {
+        body{font-family: monospace;}
+
+        @media screen and (min-width: 560px) and (max-width: 1000px) {
             body{font-size: 40px;}
         }
 
-        @media screen and (max-width: 320px) {
+        @media screen and (max-width: 560px) {
             body{font-size: 40px;}
         }
 
@@ -17,21 +19,27 @@
         h3{text-indent: 1.5rem;}
 
         pre{padding: 1rem 1.7rem; background-color: #eee; margin: 1rem; overflow-x: scroll;}
-        code{background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; line-height: 1.5; box-decoration-break: clone;}
+        code{background-color: #eee; padding: 0.1rem 0.3rem; border-radius: 3px; line-height: 1.2; box-decoration-break: clone;}
 
         p{text-indent: 1.5rem; overflow-x: scroll; padding: 0 1.5rem; line-height: 1.5}
         a{cursor: pointer;}
         a:hover{color:cyan;}
         blockquote{border-left:3px solid lightskyblue; margin: 0rem 2rem; padding: .5rem 0; background-color: linen;}
         blockquote p{padding-left: 1rem; text-indent: 0;}
-        nav{height: 1.5rem; height: 2rem; line-height: 2; border-bottom: 1px solid gray;}
+        nav{height: 1.5rem; height: 2rem; line-height: 2;}
         nav a{text-decoration: underline; padding: 1rem 0.5rem;}
-
         footer{text-align: center;}
+        header{position: sticky; top: 0; background: rgba(255, 245, 238, 0.8);}
     </style>
     <body>
-        <canvas id="bg-canvas" style="margin: 0 -1rem; position: fixed; z-index: -1; top: 0;"></canvas>
-        <nav id="article-list"></nav>
+
+        <canvas id="bg-canvas" style="margin: 0 -1rem; position: fixed; z-index: -1; top: 0; opacity: 0.1;"></canvas>
+        <header style="box-shadow: aliceblue 1px 1px 10px 1px;">
+            <!-- <h2 style="display: inline-block;">How to be hurt without heart.</h2> -->
+            <h2 style="display: inline-block;">Wishing.</h2>
+            <nav id="article-list" style="display: inline-block; float: right;"></nav>
+        </header>
+        
 
         <div id="content"></div>
 
@@ -64,7 +72,7 @@
                         let html = "";
                         for(let i = 0; i < cfgs.length; i++) {
                             const a = cfgs[i];
-                            html += "<a data-type='"+a.type+"' data-name='"+a.name+"' onclick='"+callbackName+"(event);'>"+a.text+"</a>";
+                            html += "<a href='#/"+a.type+"/"+a.name+"' data-type='"+a.type+"' data-name='"+a.name+"' onclick='"+callbackName+"(event);'>"+a.text+"</a>";
                         }
                         ele(selector).innerHTML = html;
                     } 
@@ -74,7 +82,7 @@
             })(window);
 
             site.list([
-                {type: "basic", name: "syntax", text: "Syntax"},
+                {type: "basic", name: "syntax", text: "MD Syntax"},
                 {type: "life", name: "index", text: "Life"},
                 // {type: "java", name: "thinking_in_java_01", text: "Thinking In Java 01"},
             ], "#article-list", "onLinkClicked");
@@ -83,7 +91,14 @@
                 const data = e.target.dataset;
                 site.article(data.type, data.name, "#content");
             }
-            site.article("basic", "syntax", "#content");
+
+            const url = location.hash;
+            if(url.indexOf("/") != -1) {
+                const as = url.split("/");
+                site.article(as[1], as[2], "#content");
+            } else {
+                site.article("basic", "syntax", "#content");
+            }
         </script>
     </body>
 </html>
