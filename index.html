@@ -31,9 +31,7 @@
     </style>
     <body>
         <canvas id="bg-canvas" style="margin: 0 -1rem; position: fixed; z-index: -1; top: 0;"></canvas>
-        <nav id="article-list">
-
-        </nav>
+        <nav id="article-list"></nav>
 
         <div id="content"></div>
 
@@ -78,14 +76,14 @@
             site.list([
                 {type: "basic", name: "syntax", text: "Syntax"},
                 {type: "life", name: "index", text: "Life"},
-                {type: "java", name: "thinking_in_java_01", text: "Thinking In Java 阅读笔记 01"},
+                // {type: "java", name: "thinking_in_java_01", text: "Thinking In Java 01"},
             ], "#article-list", "onLinkClicked");
 
             function onLinkClicked(e) {
                 const data = e.target.dataset;
                 site.article(data.type, data.name, "#content");
             }
-            // site.article("basic", "syntax", "#content");
+            site.article("basic", "syntax", "#content");
         </script>
     </body>
 </html>
