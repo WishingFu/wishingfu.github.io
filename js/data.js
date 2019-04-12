@@ -10,14 +10,10 @@ function calcCanvasSize() {
     canvasElement.style.height = window.innerHeight + "px";
     canvasElement.width = width;
     canvasElement.height = height;
+
+    lines.push(new Line());
+    loop();
 }
-
-calcCanvasSize();
-
-var canvas = canvasElement.getContext("2d");
-var PI2 = 2 * Math.PI;
-
-window.addEventListener("resize", calcCanvasSize);
 
 class Circle {
     constructor(x, y, r) {
@@ -192,12 +188,17 @@ class Vector2 {
     }
 }
 
+var canvas = canvasElement.getContext("2d");
+var PI2 = 2 * Math.PI;
+
+window.addEventListener("resize", calcCanvasSize);
+
 var circles = [];
 var addCircleFrame = 0;
 var addCount = 0;
 var clearFrameCount = 0;
 
-var lines = [new Line()];
+var lines = [];
 function loop() {
     // canvas.putImageData(gaussBlur(canvas.getImageData(0, 0, width, height)), 0, 0);
     // canvas.fillStyle="rgba(255, 255, 255, 0.1)";
@@ -224,7 +225,8 @@ function loop() {
     }
 }
 
-requestAnimationFrame(loop);
+calcCanvasSize();
+// requestAnimationFrame(loop);
 
 function addCircle() {
     circles.push(new Circle());
