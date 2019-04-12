@@ -4,15 +4,12 @@ var ratio, width, height;
 
 function calcCanvasSize() {
     ratio = window.devicePixelRatio;
-    width = window.innerWidth * ratio;
-    height = (window.innerHeight) * ratio;
-    canvasElement.style.width = window.innerWidth + "px";
-    canvasElement.style.height = window.innerHeight + "px";
+    width = (window.innerWidth + 300) * ratio;
+    height = (window.innerHeight + 300) * ratio;
+    canvasElement.style.width = (window.innerWidth + 300) + "px";
+    canvasElement.style.height = (window.innerHeight + 300) + "px";
     canvasElement.width = width;
     canvasElement.height = height;
-
-    lines.push(new Line());
-    loop();
 }
 
 class Circle {
@@ -226,6 +223,8 @@ function loop() {
 }
 
 calcCanvasSize();
+lines.push(new Line());
+loop();
 // requestAnimationFrame(loop);
 
 function addCircle() {
