@@ -20,8 +20,8 @@ var PI2 = 2 * Math.PI;
 window.addEventListener("resize", calcCanvasSize);
 
 class Circle {
-    constructor(x, y) {
-        this.maxr = 10;
+    constructor(x, y, r) {
+        this.maxr = r || 100;
         this.color = hsltorgb(randInt(360), 100, 50, 1);
         this.x = x || randInt(width);
         this.y = y || randInt(height);
@@ -67,33 +67,128 @@ class Line {
         this.nextPoint = [randInt(width), randInt(height)];
 
         this.step = [(this.nextPoint[0] - this.x) / this.moveTotalTime * 16.7, (this.nextPoint[1] - this.y) / this.moveTotalTime * 16.7];
+    
+        this.transition = new Polar(new Vector2(width / 2, height / 2), 0.5, Math.PI / 10, 0);
     }
 
     tick(c, ls, i) {
-        // c.strokeStyle = "black";
-        // c.lineWidth = 30;
-        // c.lineCap = "round";
-        // c.beginPath();
-        // c.moveTo(this.x, this.y);
-        this.x += this.step[0];
-        this.y += this.step[1];
-        // c.lineTo(this.x, this.y);
-        // c.closePath();
-        // c.stroke();
-        circles.push(new Circle(this.x, this.y));
+        // this.x += this.step[0];
+        // this.y += this.step[1];
+        const point = this.transition.tick();
+        this.x = point.x;
+        this.y = point.y;
+        const circle = new Circle(this.x, this.y, this.moveTime / 16.7 / 10);
+        circle.color = hsltorgb(((this.transition.angleNow) % (Math.PI * 2) / Math.PI * 180), 100, 50);
+        circles.push(circle);
+
+        if(Math.max(this.x, this.y) > Math.max(width + 300, height + 300)) {
+            ls.splice(i, 1);
+        }
 
         this.moveTime += 16.7;
-        if(this.moveTime > this.moveTotalTime) {
-            ls.splice(i, 1);
+        // if(this.moveTime > this.moveTotalTime) {
+        //     ls.splice(i, 1);
 
-            if(lines.length < 50) {
-                lines.push(new Line(this.x, this.y), new Line(this.x, this.y));
-            }
+        //     if(lines.length < 50) {
+        //         lines.push(new Line(this.x, this.y), new Line(this.x, this.y));
+        //     }
 
-            this.moveTime = 0;
-            this.nextPoint = [randInt(width), randInt(height)];
-            this.step = [(this.nextPoint[0] - this.x) / this.moveTotalTime * 16.7, (this.nextPoint[1] - this.y) / this.moveTotalTime * 16.7];
-        }
+        //     this.moveTime = 0;
+        //     this.nextPoint = [randInt(width), randInt(height)];
+        //     this.step = [(this.nextPoint[0] - this.x) / this.moveTotalTime * 16.7, (this.nextPoint[1] - this.y) / this.moveTotalTime * 16.7];
+        // }
+    }
+}
+
+class Transition {
+    constructor() {
+        this.center = new Vector2(0, 0);
+        this.name = "transition";
+        this.count = 0;
+        this.life = 1000;
+
+        this.PI = Math.PI;
+        this.PI2 = 2 * this.PI;
+        this.sin = Math.sin;
+        this.cos = Math.cos;
+    }
+}
+
+class Linear extends Transition {
+    constructor() {
+        super();
+        this.direction = new Vector2(1, 1);
+        this.speed = 10;
+    }
+
+    tick() {
+
+    }
+}
+
+class Polar extends Transition{
+    
+    constructor(center, speed, angleSpeed, start) {
+        super();
+        center ? this.center = center : '';
+        this.name = "polar_sin";
+        this.angleSpeed = angleSpeed || this.PI / 6 / 10;
+        this.speed = speed || 10;
+        this.start = start || this.PI / 6;
+
+        this.angleNow;
+    }
+
+    tick() {
+        const angle = this.start + this.count * this.angleSpeed;
+        this.angleNow = angle;
+        const direction = new Vector2(this.cos(angle), this.sin(angle));
+        const length = this.speed * this.count;
+        //length > Math.min(width - 50, height- 50) / 2 ? Math.min(width- 50, height- 50) / 2 : length
+        const result = this.center.add(direction.multiply(length));
+
+        this.count += 1;
+        return result;
+    }
+}
+
+class Vector2 {
+    constructor(x, y) {
+        this.x = x || 0;
+        this.y = y || 0;
+
+        // math methods
+        this.quadratic = (v) => {return Math.pow(v, 2);};
+        this.sqrt = Math.sqrt;
+    }
+
+    get normal() {
+        const m = this.magitude;
+        return new Vector2(m > 0 ? this.x / m : 0, m > 0 ? this.y / m : 0);
+    }
+
+    get magitude() {
+        return this.sqrt(this.quadratic(this.x) + this.quadratic(this.y));
+    }
+
+    add(v2) {
+        return new Vector2(this.x + v2.x, this.y + v2.y);
+    }
+
+    clampMax(xMax, yMax) {
+        this.x = this.x > xMax ? xMax : this.x;
+        this.y = this.y > yMax ? yMax : this.y;
+        return this;
+    }
+
+    addSelf(v2) {
+        this.x += v2.x;
+        this.y += v2.y;
+        return this;
+    }
+
+    multiply(n) {
+        return new Vector2(this.x * n, this.y * n);
     }
 }
 
@@ -103,12 +198,11 @@ var addCount = 0;
 var clearFrameCount = 0;
 
 var lines = [new Line()];
-
 function loop() {
     // canvas.putImageData(gaussBlur(canvas.getImageData(0, 0, width, height)), 0, 0);
-    // canvas.fillStyle="rgba(255, 255, 255, 0.4)";
-    canvas.fillStyle="rgba(0, 0, 0, 1)";
-    canvas.fillRect(0, 0, width, height);
+    // canvas.fillStyle="rgba(255, 255, 255, 0.1)";
+    // canvas.fillStyle="rgba(0, 0, 0, 1)";
+    // canvas.fillRect(0, 0, width, height);
     addCount += 1;
     clearFrameCount += 1;
     // if(addCount >= addCircleFrame && circles.length < 50) {
@@ -123,9 +217,11 @@ function loop() {
     // }
 
 
-    animationLines();
     animationCircles();
-    requestAnimationFrame(loop);
+    if(!animationLines()) {
+        // requestAnimationFrame(loop);
+        return loop();
+    }
 }
 
 requestAnimationFrame(loop);
@@ -143,6 +239,10 @@ function animationCircles() {
 function animationLines() {
     for(let i = lines.length; i--;) {
         lines[i].tick(canvas, lines, i);
+    }
+
+    if(!lines.length) {
+        return true;
     }
 }
 
